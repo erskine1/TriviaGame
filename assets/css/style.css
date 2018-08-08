@@ -1,0 +1,14 @@
+body, html {
+  color: #fff;
+  background: #170e09;
+  min-height: 100%;
+  /* font-family: 'Open Sans', Arial, sans-serif; */
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+/* Timer */
+
+#timer {
+  display: none;
+}
