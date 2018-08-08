@@ -3,7 +3,7 @@
 // VARIABLES 
 
 var questions = [
-  { q: `Are you ready to begin?`, "a1": `I'm ready.`, a2: `I'm not ready.`, ans: `I'm ready.` },
+  { q: `Are you ready to begin?`, a1: `I'm ready.`, a2: `I'm not ready.`, ans: `I'm ready.` },
   { q: `Can you answer the first question?`, a1: `It is possible.`, a2: `It is not possible.` },
   { q: `Can you answer the second question?`, a1: `Probably.`, a2: `Maybe.` },
 ]
@@ -81,7 +81,8 @@ $(".answer").on("click", function()  {
   // key value
 
   // this is comparing strings
-
+  // right now this relies on the duplicate ans key in each part of the questions array
+  // there should be a way to do it without the double answer and without having to compare strings
   console.log(`Player chooses ${guess}.`)
   if ($(`#${guess}`).text() === questions[questionIndex].ans) {
     console.log(`Wow! Player guessed correctly.`)
