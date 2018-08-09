@@ -17,40 +17,21 @@ var answerKey = [
   {ans: `Yep that's it.`},
 ];
 
-// Totals for end
-var correct = 0;
-var incorrect = 0;
-var noAnswer = 0;
-
 // For trivia
 var initialized = false;
 var questionIndex = -1;
 var answered = false;
 var guess = "";
 
-// TESTING 
-
-// window.onload = function() {
-  // active.push(questions.shift());
-  // initialize();
-  // timer.start(); // Starting timer on load for testing purposes. Should be called when a question loads
-  // $(".question").attr("id", "0"); // this is how we'll get the index
-  // $("#0").text(active[0].q);
-  // $("#answer-1").text(active[0].a1);
-  // $("#answer-2").text(active[0].a2);
-  // $("#answer-3").text(active[0].a3);
-// };
-
-// var timeLimit = 15;
-// var transition = 3; 
-
+// Totals for scoreCard
+var correct = 0;
+var incorrect = 0;
+var noAnswer = 0;
 
 // TIMER 
-
 var timerInterval;
-var timerActive = false; // is this actually used anywhere?
+var timerActive = false;
 
-// Timer object
 var timer = {
   time: 16,
 
@@ -71,6 +52,7 @@ var timer = {
     $("#timer").text(`You have ${timer.time} seconds to select an answer. Choose wisely.`)
     if (timer.time < 0) {
       $("#timer").text(`Your failure has not gone unnoticed.`)
+      noAnswer++;
       checkAns();
     }
   },
@@ -84,12 +66,7 @@ var timer = {
 
 };
 
-// TRIVIA - ANSWER EVENT
-
-// main function
-// push question[0] into answer array, THEN splice 
-// need to make it so player can only choose an answer once per question
-// and so player can't choose answers at all if time reaches 0
+// TRIVIA FUNCTIONS
 
 function start() {
   initialized = true;
@@ -100,6 +77,7 @@ function start() {
   setTimeout(function(){ next(); }, 3000);
 }
 
+// Stages the next question/answers in the DOM
 function next() {
   answered = false;
   active.shift();
@@ -114,9 +92,7 @@ function next() {
 
   $(`.question`).text(active[0].q); 
   var answer1 = $(`<div class="answer">`).text(active[0].a1);
-  // answer1.attr("id", "testing");
   var answer2 = $(`<div class="answer">`).text(active[0].a2);
-  // answer2.addClass("answer");
   var answer3 = $(`<div class="answer">`).text(active[0].a3);
   var answer4 = $(`<div class="answer">`).text(active[0].a4);
 
@@ -127,26 +103,43 @@ function next() {
 
 };
 
+// Checks if answer is correct or incorrect
 function checkAns() {
   console.log(`The answered function has been called.`)
   timer.stop();
-  // check if the answer is true or false
+
+  // Each conditional stage should have DOM manipulation
+  // highlight the correct answer
+  // display a message depending on whether they got it right 
+  // messages can be randoms from an object containing wrong/right arrays!
+
   if (guess === answerKey[questionIndex].ans) {
+    correct++;
     console.log(`You answered correctly.`)
-    // answered = false;
   }
   else  {
+    incorrect++;
     console.log(`You answered incorrectly.`)
-    // setTimeout(next(), 3000); // should execute next function in 3 seconds
-    // answered = false;
   }
 
   if (questions.length > 0) {
-    setTimeout(function(){ next(); }, 4000); // should execute next function in 3 seconds
+    setTimeout(function(){ next(); }, 4000);
   }
-
+  else if (questions.length === 0) {
+    scoreCard();
+  }
 };
 
+// function that will present the scores at the end of the game
+// will include a restart button
+function scoreCard() {
+  console.log(`-----Final Score-----`)
+  console.log(`Correct: ${correct}.`)
+  console.log(`Incorrect: ${incorrect}.`)
+  console.log(`Unanswered: ${noAnswer}.`)
+}
+
+// TRIVIA CLICK EVENT
 $(".answerBox").on("click", "div.answer", function() {
   guess = $(event.target).text();
   
@@ -172,62 +165,4 @@ $(".answerBox").on("click", "div.answer", function() {
       checkAns();
     }
   }
-
-  //  answered check will matter once I add the count between questions (to say whether they got it right or wrong)
-  // questions.length > 0 stops this once the last question has been taken out of the questions array
-  // else if (timer.time > 0 && questions.length > 0) {
-  //   answered = true;
-  //   // timer.stop();
-  //   console.log(`You clicked an answer!`);
-  //   console.log(`answered is ${answered}.`);
-  //   console.log(`-------------------------------`);
-  //   checkAns();
-  // }
-  // else if (questions.length === 0) {
-  //   // timer.stop();
-  //   console.log(`You answered the last question!`);
-  //   console.log(`-------------------------------`);
-  //   checkAns();
-  // }
 });
-  // questionIndex = $(".question").attr("id");
-  // guess = this.id; // the id is a string and can't access the object
-
-  // conditional to determine if it was 1-4, then select the corresponding
-  // key value
-
-  // this is comparing strings
-  // right now this relies on the duplicate ans key in each part of the questions array
-  // there should be a way to do it without the double answer and without having to compare strings
-  // console.log(`Player chooses ${guess}.`)
-  // if ($(`#${guess}`).text() === answerKey[questionIndex].ans) {
-  //   console.log(`Wow! Player guessed correctly.`)
-    // if player is right, display a message, and move to next question after short duration
-  // }
-  // else {
-    // console.log(`Wrong.`)
-    // if player is wrong, display a different message etc.
-  // }
-
-
-// function initialize() {
-  // default variables
-  // after a brief (.5s) pause, informs player about the game
-  // and asks if they are ready
-  // player has two options to reply, but both lead to the game starting
-  // this is the first question/answer, but not part of the trivia count
-// }
-
-// function next() {
-  // next question + answers load
-  // question count ++ 
-  // timer starts - call timer function
-
-// }
-
-// function countDown() {
-  // timer-- 
-// }
-
-
-// EVENTS 
