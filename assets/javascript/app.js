@@ -68,12 +68,36 @@ var timer = {
 
 // TRIVIA FUNCTIONS
 
+function restart() {
+  questions = [
+    { q: `Are you ready to begin?`, a1: `I'm ready.`, a2: `I'm not ready.`, a3: `Huh?`, a4: `Placeholder.` },
+    { q: `Can you answer the first question?`, a1: `Huh?`, a2: `It is not possible.`, a3: `It is possible.`, a4: `Placeholder.` },
+    { q: `Will you answer the second question?`, a1: `Probably.`, a2: `Okay.`, a3: `Maybe.`, a4: `Placeholder.` },
+    { q: `Is this the last question?`, a1: `Nah.`, a2: `Whatever.`, a3: `Yep that's it.`, a4: `Placeholder.`}
+  ];
+  
+  initialized = false;
+  questionIndex = -1;
+  answered = false;
+  guess = "";
+
+  correct = 0;
+  incorrect = 0;
+  noAnswer = 0;
+
+  timer.stop();
+  timer.reset();
+
+  active.shift();
+}
+
 function start() {
   initialized = true;
   // answered = false;
   console.log(`You initialized the game!`);
   console.log(`-------------------------------`);
   guess = "";
+  questionIndex++; 
   setTimeout(function(){ next(); }, 3000);
 }
 
@@ -82,6 +106,7 @@ function next() {
   answered = false;
   active.shift();
   active.push(questions.shift());
+  
   questionIndex++; 
   guess = ""; 
 
@@ -99,8 +124,7 @@ function next() {
   $(`.answerBox`).empty();
   answerBox.append(answer1, answer2, answer3, answer4);
   timer.reset();
-  timer.start(); 
-
+  timer.start();
 };
 
 // Checks if answer is correct or incorrect
@@ -165,4 +189,8 @@ $(".answerBox").on("click", "div.answer", function() {
       checkAns();
     }
   }
+});
+
+$("#restart").on("click", function() {
+  restart();  
 });
