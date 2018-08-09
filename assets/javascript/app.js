@@ -62,7 +62,7 @@ var timer = {
     timerActive = false;
     // $("#timer").hide();
     $("#timer").text(`-`)
-  },
+  }
 
 };
 
