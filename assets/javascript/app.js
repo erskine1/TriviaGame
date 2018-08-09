@@ -2,7 +2,7 @@
 // VARIABLES 
 
 var questions = [
-  { q: `Are you ready to begin?`, a1: `I'm ready.`, a2: `I'm not ready.`, a3: `Huh?`, a4: `Placeholder.` },
+  { q: `What's the first question?`, a1: `It's the first one.`, a2: `No.`, a3: `I can't read.`, a4: `Placeholder.` },
   { q: `Can you answer the first question?`, a1: `Huh?`, a2: `It is not possible.`, a3: `It is possible.`, a4: `Placeholder.` },
   { q: `Will you answer the second question?`, a1: `Probably.`, a2: `Okay.`, a3: `Maybe.`, a4: `Placeholder.` },
   { q: `Is this the last question?`, a1: `Nah.`, a2: `Whatever.`, a3: `Yep that's it.`, a4: `Placeholder.`}
@@ -11,7 +11,7 @@ var questions = [
 var active = []; 
 
 var answerKey = [
-  {ans: `I'm ready.`},
+  {ans: `It's the first one.`},
   {ans: `It is possible.`}, 
   {ans: `Okay.`}, 
   {ans: `Yep that's it.`},
@@ -33,10 +33,10 @@ var timerInterval;
 var timerActive = false;
 
 var timer = {
-  time: 16,
+  time: 11,
 
   reset: function() {
-    timer.time = 16;
+    timer.time = 11;
   },
 
   start: function() {
@@ -123,7 +123,8 @@ function checkAns() {
   }
 
   if (questions.length > 0) {
-    setTimeout(function(){ next(); }, 4000);
+    setTimeout(function(){ next(); }, 3000);
+    $("#timer").text(`Question timeout is running.`)
   }
   else if (questions.length === 0) {
     scoreCard();
