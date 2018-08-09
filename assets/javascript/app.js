@@ -141,6 +141,7 @@ function scoreCard() {
 }
 
 // TRIVIA CLICK EVENT
+// or document? 
 $(".answerBox").on("click", "div.answer", function() {
   guess = $(event.target).text();
   
