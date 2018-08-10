@@ -139,6 +139,7 @@ function next() {
 // Checks if answer is correct or incorrect
 function checkAns() {
   timer.stop();
+  $("#timer").text(`You answered: ${guess}`);
 
   var box = $(`.answerBox`).empty();
   var guard = $(`<img>`);
