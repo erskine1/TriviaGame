@@ -78,7 +78,7 @@ function fadeStart() {
 };
 
 function restart() {
-  var questions = [
+  questions = [
     { q: `Which of these is not a previous name of Morrowind?`, a1: `Dwemereth.`, a2: `Resdayn.`, a3: `Solstheim.`, a4: `Dunmereth.` },
     { q: `What is Morrowind's capital city?`, a1: `Mournhold.`, a2: `Vivec.`, a3: `Gnisis.`, a4: `Balmora.` },
     { q: `What was the name of Kagrenac's enchanted hammer?`, a1: `Wraithguard.`, a2: `Keening.`, a3: `Sunder.`, a4: `Cyclone.` },
@@ -89,19 +89,23 @@ function restart() {
   initialized = false;
   questionIndex = -1;
   answered = false;
-
   correct = 0;
   incorrect = 0;
   noAnswer = 0;
 
+  $("#restart").hide()
   timer.stop();
   timer.reset();
-
   active.shift();
-  start();
+
+  var refreshQ = $(`.questionBox`).empty();
+  var refreshA = $(`.answerBox`).empty();
+  refreshQ.append(`<div class="question banner-thick">Are you ready to begin?</div>
+    <div id="timer" class="banner-thick"></div>`);
+  refreshA.append(`<div id="ready" class="answer banner-thick">I'm ready.</div>`);
 }
 
-function start() {
+function begin() {
   initialized = true;
   guess = "";
   setTimeout(function(){ next(); }, 1500);
@@ -131,7 +135,6 @@ function next() {
 
 // Checks if answer is correct or incorrect
 function checkAns() {
-  console.log(`The answered function has been called.`)
   timer.stop();
 
   var box = $(`.answerBox`).empty();
@@ -169,7 +172,6 @@ function checkAns() {
 
   else if (guess === answerKey[questionIndex].ans) {
     correct++;
-    console.log(`You answered correctly.`)
     box.append(`<div class="speech">... Correct</div>`);
 
     var amateur = new Audio(src="assets/sounds/correct/amateur.mp3");
@@ -196,7 +198,6 @@ function checkAns() {
   }
   else {
     incorrect++;
-    console.log(`You answered incorrectly.`)
     box.append(`<div class="speech">... The correct answer was ${answerKey[questionIndex].ans}</div>`);
 
     var relax = new Audio(src="assets/sounds/incorrect/relax.mp3");
@@ -233,10 +234,6 @@ function checkAns() {
 // function that will present the scores at the end of the game
 // will include a restart button
 function scoreCard() {
-  console.log(`-----Final Score-----`)
-  console.log(`Correct: ${correct}.`)
-  console.log(`Incorrect: ${incorrect}.`)
-  console.log(`Unanswered: ${noAnswer}.`)
   $(`.question`).text(`Outlander...`)
 
   var box = $(`.answerBox`).empty();
@@ -254,7 +251,7 @@ $(".answerBox").on("click", "div.answer", function() {
   guess = $(event.target).text();
   
   if (!initialized) {
-    start();
+    begin();
   }
 
   else if (initialized && !answered && timer.time > 0) {
