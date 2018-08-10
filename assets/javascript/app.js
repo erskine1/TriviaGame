@@ -7,19 +7,21 @@ window.onload = function () {
 // VARIABLES 
 
 var questions = [
-  { q: `What's the first question?`, a1: `It's the first one.`, a2: `No.`, a3: `I can't read.`, a4: `Placeholder.` },
-  { q: `Can you answer the first question?`, a1: `Huh?`, a2: `It is not possible.`, a3: `It is possible.`, a4: `Placeholder.` },
-  { q: `Will you answer the second question?`, a1: `Probably.`, a2: `Okay.`, a3: `Maybe.`, a4: `Placeholder.` },
-  { q: `Is this the last question?`, a1: `Nah.`, a2: `Whatever.`, a3: `Yep that's it.`, a4: `Placeholder.`}
+  { q: `Which of these is not a previous name of Morrowind?`, a1: `Dwemereth.`, a2: `Resdayn.`, a3: `Solstheim.`, a4: `Dunmereth.` },
+  { q: `What is Morrowind's capital city?`, a1: `Mournhold.`, a2: `Vivec.`, a3: `Gnisis.`, a4: `Balmora.` },
+  { q: `What was the name of Kagrenac's enchanted hammer?`, a1: `Wraithguard.`, a2: `Keening.`, a3: `Sunder.`, a4: `Cyclone.` },
+  { q: `Which great house lost its seat in the Fourth Era?`, a1: `Redoran.`, a2: `Telvanni.`, a3: `Sadras.`, a4: `Hlaalu.`},
+  { q: `Which of these is the correct translation of Vvardenfell?`, a1: `Red Mountain.`, a2: `City of the Strong Shield.`, a3: `Ministry of Truth.`, a4: `Sea of Ghosts.`}
 ];
 
 var active = []; 
 
 var answerKey = [
-  {ans: `It's the first one.`},
-  {ans: `It is possible.`}, 
-  {ans: `Okay.`}, 
-  {ans: `Yep that's it.`},
+  {ans: `Solstheim.`},
+  {ans: `Mournhold.`}, 
+  {ans: `Sunder.`}, 
+  {ans: `Hlaalu.`},
+  {ans: `City of the Strong Shield.`}
 ];
 
 // For trivia
@@ -66,7 +68,7 @@ var timer = {
     clearInterval(timerInterval);
     timerActive = false;
     // $("#timer").hide();
-    $("#timer").text(`-`)
+    $("#timer").text(``)
   }
 
 };
@@ -79,17 +81,17 @@ function fadeStart() {
 };
 
 function restart() {
-  questions = [
-    { q: `Are you ready to begin?`, a1: `I'm ready.`, a2: `I'm not ready.`, a3: `Huh?`, a4: `Placeholder.` },
-    { q: `Can you answer the first question?`, a1: `Huh?`, a2: `It is not possible.`, a3: `It is possible.`, a4: `Placeholder.` },
-    { q: `Will you answer the second question?`, a1: `Probably.`, a2: `Okay.`, a3: `Maybe.`, a4: `Placeholder.` },
-    { q: `Is this the last question?`, a1: `Nah.`, a2: `Whatever.`, a3: `Yep that's it.`, a4: `Placeholder.`}
+  var questions = [
+    { q: `Which of these is not a previous name of Morrowind?`, a1: `Dwemereth.`, a2: `Resdayn.`, a3: `Solstheim.`, a4: `Dunmereth.` },
+    { q: `What is Morrowind's capital city?`, a1: `Mournhold.`, a2: `Vivec.`, a3: `Gnisis.`, a4: `Balmora.` },
+    { q: `What was the name of Kagrenac's enchanted hammer?`, a1: `Wraithguard.`, a2: `Keening.`, a3: `Sunder.`, a4: `Cyclone.` },
+    { q: `Which great house lost its seat in the Fourth Era?`, a1: `Redoran.`, a2: `Telvanni.`, a3: `Sadras.`, a4: `Hlaalu.`},
+    { q: `Which of these is the correct translation of Vvardenfell?`, a1: `Red Mountain.`, a2: `City of the Strong Shield.`, a3: `Ministry of Truth.`, a4: `Sea of Ghosts.`}
   ];
   
   initialized = false;
   questionIndex = -1;
   answered = false;
-  guess = "";
 
   correct = 0;
   incorrect = 0;
@@ -99,6 +101,7 @@ function restart() {
   timer.reset();
 
   active.shift();
+  start();
 }
 
 function start() {
@@ -107,7 +110,7 @@ function start() {
   console.log(`You initialized the game!`);
   console.log(`-------------------------------`);
   guess = "";
-  questionIndex++; 
+  // questionIndex++; 
   setTimeout(function(){ next(); }, 1500);
 }
 
@@ -116,17 +119,11 @@ function next() {
   answered = false;
   active.shift();
   active.push(questions.shift());
-  
   questionIndex++; 
   guess = ""; 
 
-  console.log(`The next function has been called.`);
-  console.log(`-------------------------------`);
-  
   var answerBox = $(`.answerBox`); 
-
   $(`.question`).text(active[0].q);
-  
   var answer1 = $(`<div class="answer banner-thick">`).text(active[0].a1);
   var answer2 = $(`<div class="answer banner-thick">`).text(active[0].a2);
   var answer3 = $(`<div class="answer banner-thick">`).text(active[0].a3);
@@ -144,23 +141,71 @@ function checkAns() {
   console.log(`The answered function has been called.`)
   timer.stop();
 
-  // Each conditional stage should have DOM manipulation
-  // highlight the correct answer
-  // display a message depending on whether they got it right 
-  // messages can be randoms from an object containing wrong/right arrays!
+  var box = $(`.answerBox`).empty();
+  var guard = $(`<img>`);
+  guard.attr(`src`, `assets/images/redoran.gif`)
+  guard.addClass(`guard`); 
+  box.append(guard);
 
   if (guess === answerKey[questionIndex].ans) {
     correct++;
     console.log(`You answered correctly.`)
+    box.append(`<div class="speech">... Correct</div>`);
+
+    var amateur = new Audio(src="assets/sounds/correct/amateur.mp3");
+    var attention = new Audio(src="assets/sounds/correct/attention.mp3");
+    var truth = new Audio(src="assets/sounds/correct/truth.mp3");
+    var yes = new Audio(src="assets/sounds/correct/yes.mp3");
+    var warmly = new Audio(src="assets/sounds/correct/warmly.mp3");
+
+    if (correct === 1) {
+      amateur.play();
+    }
+    else if (correct === 2) {
+      attention.play();
+    }
+    else if (correct === 3) {
+      truth.play();
+    }
+    else if (correct === 4) {
+      yes.play();
+    }
+    else if (correct === 5) {
+      warmly.play();
+    }
+    
   }
-  else  {
+  else {
     incorrect++;
     console.log(`You answered incorrectly.`)
+    box.append(`<div class="speech">... The correct answer was ${answerKey[questionIndex].ans}</div>`);
+
+    var relax = new Audio(src="assets/sounds/incorrect/relax.mp3");
+    var mind = new Audio(src="assets/sounds/incorrect/mind.mp3");
+    var no = new Audio(src="assets/sounds/incorrect/no.mp3");
+    var worse = new Audio(src="assets/sounds/incorrect/worse.mp3");
+    var wish = new Audio(src="assets/sounds/incorrect/wish.mp3");
+
+    if (incorrect === 1) {
+      relax.play();
+    }
+    else if (incorrect === 2) {
+      mind.play();
+    }
+    else if (incorrect === 3) {
+      no.play();
+    }
+    else if (incorrect === 4) {
+      worse.play();
+    }
+    else if (incorrect === 5) {
+      wish.play();
+    }
   }
 
   if (questions.length > 0) {
-    setTimeout(function(){ next(); }, 3000);
-    $("#timer").text(`Question timeout is running.`)
+    setTimeout(function(){ next(); }, 5000);
+    // $("#timer").text(`Question timeout is running.`)
   }
   else if (questions.length === 0) {
     scoreCard();

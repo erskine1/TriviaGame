@@ -55,6 +55,24 @@ body, html {
   margin: 0 auto;
 }
 
+.guard {
+  max-height: 150px;
+  margin-top: 15px;
+  position: relative;
+  left: 20px;
+}
+
+.speech {
+  font-size: 15px;
+  color: #dec595; 
+  float: right;
+  padding-top: 30px;
+  /* overflow: hidden; */
+  width: 9rem;
+  text-align: left;
+  padding-left: 10px;
+}
+
 .banner-thick {
   padding: 5px;
   height: 30px;
@@ -89,7 +107,7 @@ body, html {
 } */
 
 ::selection{
-  background: #000 0.9;
+  background: transparent;
 }
 
 .question {
