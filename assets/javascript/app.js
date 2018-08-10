@@ -1,4 +1,9 @@
 
+
+window.onload = function () {
+  setTimeout(function(){ fadeStart(); }, 1500);  
+};
+
 // VARIABLES 
 
 var questions = [
@@ -68,6 +73,11 @@ var timer = {
 
 // TRIVIA FUNCTIONS
 
+function fadeStart() {
+  $(`.trivia`).fadeIn("slow", function() {
+  }) // Fade in!
+};
+
 function restart() {
   questions = [
     { q: `Are you ready to begin?`, a1: `I'm ready.`, a2: `I'm not ready.`, a3: `Huh?`, a4: `Placeholder.` },
@@ -116,10 +126,10 @@ function next() {
   var answerBox = $(`.answerBox`); 
 
   $(`.question`).text(active[0].q); 
-  var answer1 = $(`<div class="answer">`).text(active[0].a1);
-  var answer2 = $(`<div class="answer">`).text(active[0].a2);
-  var answer3 = $(`<div class="answer">`).text(active[0].a3);
-  var answer4 = $(`<div class="answer">`).text(active[0].a4);
+  var answer1 = $(`<div class="answer banner-thick">`).text(active[0].a1);
+  var answer2 = $(`<div class="answer banner-thick">`).text(active[0].a2);
+  var answer3 = $(`<div class="answer banner-thick">`).text(active[0].a3);
+  var answer4 = $(`<div class="answer banner-thick">`).text(active[0].a4);
 
   $(`.answerBox`).empty();
   answerBox.append(answer1, answer2, answer3, answer4);
@@ -162,10 +172,9 @@ function scoreCard() {
   console.log(`Correct: ${correct}.`)
   console.log(`Incorrect: ${incorrect}.`)
   console.log(`Unanswered: ${noAnswer}.`)
-}
+};
 
 // TRIVIA CLICK EVENT
-// or document? 
 $(".answerBox").on("click", "div.answer", function() {
   guess = $(event.target).text();
   
