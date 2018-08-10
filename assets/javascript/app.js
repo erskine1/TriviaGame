@@ -1,7 +1,7 @@
 $(document).ready(function() { 
 
 window.onload = function () {
-  setTimeout(function(){ fadeStart(), wind.play(); }, 1500);
+  setTimeout(function(){ fadeStart() }, 1500);
 };
 
 // VARIABLES 
@@ -103,6 +103,9 @@ function restart() {
   refreshQ.append(`<div class="question banner-thick">Are you ready to begin?</div>
     <div id="timer" class="banner-thick"></div>`);
   refreshA.append(`<div id="ready" class="answer banner-thick">I'm ready.</div>`);
+
+  var wind = new Audio(src="assets/sounds/wind.wav");
+  wind.play();
 }
 
 function begin() {
@@ -231,8 +234,6 @@ function checkAns() {
   }
 };
 
-// function that will present the scores at the end of the game
-// will include a restart button
 function scoreCard() {
   $(`.question`).text(`Outlander...`)
 
@@ -241,8 +242,7 @@ function scoreCard() {
   guard.attr(`src`, `assets/images/redoran.gif`)
   guard.addClass(`guard`); 
   box.append(guard);
-  box.append(`<div class="speech">Correct: ${correct}.<br>Incorrect: ${incorrect}.<br>Unanswered: ${noAnswer}.</div></div>`);
-
+  box.append(`<div class="speech score">Correct: ${correct}.<br>Incorrect: ${incorrect}.<br>Unanswered: ${noAnswer}.</div></div>`);
   $("#restart").show().text("play again");
 };
 
@@ -251,24 +251,20 @@ $(".answerBox").on("click", "div.answer", function() {
   guess = $(event.target).text();
   var clicked = new Audio(src="assets/sounds/click.wav");
 
-  // click.play();
   if (!initialized) {
     clicked.play();
     setTimeout(function(){ begin(); }, 500); 
-    // begin();
   }
   else if (initialized && !answered && timer.time > 0) {
     if (questions.length > 0) {
       answered = true;
       clicked.play();
       setTimeout(function(){ checkAns(); }, 500);
-      // checkAns();
     }
     else if (questions.length === 0) {
       answered = true;
       clicked.play();
       setTimeout(function(){ checkAns(); }, 500);
-      // checkAns();
     }
   }
 });
