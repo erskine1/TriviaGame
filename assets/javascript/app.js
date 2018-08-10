@@ -108,7 +108,7 @@ function start() {
   console.log(`-------------------------------`);
   guess = "";
   questionIndex++; 
-  setTimeout(function(){ next(); }, 3000);
+  setTimeout(function(){ next(); }, 1500);
 }
 
 // Stages the next question/answers in the DOM
@@ -125,7 +125,8 @@ function next() {
   
   var answerBox = $(`.answerBox`); 
 
-  $(`.question`).text(active[0].q); 
+  $(`.question`).text(active[0].q);
+  
   var answer1 = $(`<div class="answer banner-thick">`).text(active[0].a1);
   var answer2 = $(`<div class="answer banner-thick">`).text(active[0].a2);
   var answer3 = $(`<div class="answer banner-thick">`).text(active[0].a3);
@@ -135,6 +136,7 @@ function next() {
   answerBox.append(answer1, answer2, answer3, answer4);
   timer.reset();
   timer.start();
+  
 };
 
 // Checks if answer is correct or incorrect
