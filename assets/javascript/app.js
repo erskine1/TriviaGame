@@ -57,9 +57,7 @@ var timer = {
   countDown: function() {
     timer.time--;
     $("#timer").text(`You have ${timer.time} seconds to select an answer. Choose wisely.`)
-    if (timer.time < 0) {
-      $("#timer").text(`Your failure has not gone unnoticed.`)
-      noAnswer++;
+    if (timer.time <= 0) {
       checkAns();
     }
   },
@@ -67,8 +65,7 @@ var timer = {
   stop: function() {
     clearInterval(timerInterval);
     timerActive = false;
-    // $("#timer").hide();
-    $("#timer").text(``)
+    $("#timer").text(``);
   }
 
 };
@@ -106,11 +103,7 @@ function restart() {
 
 function start() {
   initialized = true;
-  // answered = false;
-  console.log(`You initialized the game!`);
-  console.log(`-------------------------------`);
   guess = "";
-  // questionIndex++; 
   setTimeout(function(){ next(); }, 1500);
 }
 
@@ -147,7 +140,34 @@ function checkAns() {
   guard.addClass(`guard`); 
   box.append(guard);
 
-  if (guess === answerKey[questionIndex].ans) {
+  if (timer.time <= 0) {
+    noAnswer++;
+    box.append(`<div class="speech">... The correct answer was ${answerKey[questionIndex].ans}</div>`);
+
+    var well = new Audio(src="assets/sounds/noAns/well.mp3");
+    var amused = new Audio(src="assets/sounds/noAns/amused.mp3");
+    var talk = new Audio(src="assets/sounds/noAns/talk.mp3");
+    var takeLong = new Audio(src="assets/sounds/noAns/take-long.mp3");
+    var better = new Audio(src="assets/sounds/noAns/better.mp3");
+
+    if (noAnswer === 1) {
+      well.play();
+    }
+    else if (noAnswer === 2) {
+      amused.play();
+    }
+    else if (noAnswer === 3) {
+      talk.play();
+    }
+    else if (noAnswer === 4) {
+      takeLong.play();
+    }
+    else if (noAnswer === 5) {
+      better.play();
+    } 
+  }
+
+  else if (guess === answerKey[questionIndex].ans) {
     correct++;
     console.log(`You answered correctly.`)
     box.append(`<div class="speech">... Correct</div>`);
@@ -172,8 +192,7 @@ function checkAns() {
     }
     else if (correct === 5) {
       warmly.play();
-    }
-    
+    } 
   }
   else {
     incorrect++;
@@ -205,7 +224,6 @@ function checkAns() {
 
   if (questions.length > 0) {
     setTimeout(function(){ next(); }, 5000);
-    // $("#timer").text(`Question timeout is running.`)
   }
   else if (questions.length === 0) {
     scoreCard();
@@ -219,6 +237,16 @@ function scoreCard() {
   console.log(`Correct: ${correct}.`)
   console.log(`Incorrect: ${incorrect}.`)
   console.log(`Unanswered: ${noAnswer}.`)
+  $(`.question`).text(`Outlander...`)
+
+  var box = $(`.answerBox`).empty();
+  var guard = $(`<img>`);
+  guard.attr(`src`, `assets/images/redoran.gif`)
+  guard.addClass(`guard`); 
+  box.append(guard);
+  box.append(`<div class="speech">Correct: ${correct}.<br>Incorrect: ${incorrect}.<br>Unanswered: ${noAnswer}.</div></div>`);
+
+  $("#restart").show().text("play again");
 };
 
 // TRIVIA CLICK EVENT
@@ -226,24 +254,16 @@ $(".answerBox").on("click", "div.answer", function() {
   guess = $(event.target).text();
   
   if (!initialized) {
-    console.log(`initialized is ${initialized}.`);    
-    console.log(`-------------------------------`);
     start();
   }
 
   else if (initialized && !answered && timer.time > 0) {
     if (questions.length > 0) {
       answered = true;
-      console.log(`You clicked an answer!`);
-      console.log(`answered is ${answered}.`);
-      console.log(`-------------------------------`);
       checkAns();
     }
     else if (questions.length === 0) {
       answered = true;
-      console.log(`You answered the last question!`);
-      console.log(`answered is ${answered}.`);
-      console.log(`-------------------------------`);
       checkAns();
     }
   }
