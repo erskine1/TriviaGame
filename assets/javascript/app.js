@@ -51,6 +51,7 @@ var timer = {
       timerInterval = setInterval(timer.countDown, 1000);
       timerActive = true;
       $("#timer").show();
+      $("#timer").text(``);
     }
   },
 
