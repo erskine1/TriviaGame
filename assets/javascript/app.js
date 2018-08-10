@@ -1,7 +1,7 @@
-
+$(document).ready(function() { 
 
 window.onload = function () {
-  setTimeout(function(){ fadeStart(); }, 1500);  
+  setTimeout(function(){ fadeStart(), wind.play(); }, 1500);
 };
 
 // VARIABLES 
@@ -249,23 +249,32 @@ function scoreCard() {
 // TRIVIA CLICK EVENT
 $(".answerBox").on("click", "div.answer", function() {
   guess = $(event.target).text();
-  
-  if (!initialized) {
-    begin();
-  }
+  var clicked = new Audio(src="assets/sounds/click.wav");
 
+  // click.play();
+  if (!initialized) {
+    clicked.play();
+    setTimeout(function(){ begin(); }, 500); 
+    // begin();
+  }
   else if (initialized && !answered && timer.time > 0) {
     if (questions.length > 0) {
       answered = true;
-      checkAns();
+      clicked.play();
+      setTimeout(function(){ checkAns(); }, 500);
+      // checkAns();
     }
     else if (questions.length === 0) {
       answered = true;
-      checkAns();
+      clicked.play();
+      setTimeout(function(){ checkAns(); }, 500);
+      // checkAns();
     }
   }
 });
 
 $("#restart").on("click", function() {
   restart();  
+});
+
 });
